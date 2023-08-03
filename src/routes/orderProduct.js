@@ -1,57 +1,50 @@
 const express = require("express");
+const orderProductShema = require("../models/orderProduct");
+
 const router = express.Router();
-const bcrypt = require('bcrypt');
-
-const userShema = require("../models/user");
-
-router.post("/users", (req, res) => {
-    const entity = userShema({
+ 
+router.post("/orderProducts", (req, res) => {
+    const entity = orderProductShema({
         ...req.body,
         dateCreated: Date.now()
     });
-
-    bcrypt.hash(entity.password, 10)
-        .then(hash => {
-            entity.password = hash;
-            console.log(entity); 
-            return entity.save();
-        })
-        .then(data => res.json(data))
-        .catch(error => res.json({ message: error }));
-
+    entity
+        .save()
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error }));
 });
-
-router.get("/users", (req, res) => {
-    userShema
+ 
+router.get("/orderProducts", (req, res) => {
+    orderProductShema
         .find()
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.get("/users/:id", (req, res) => {
+ 
+router.get("/orderProducts/:id", (req, res) => {
     const { id } = req.params;
 
-    userShema
+    orderProductShema
         .findById(id)
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.put("/users/:id", (req, res) => {
+ 
+router.put("/orderProducts/:id", (req, res) => {
     const { id } = req.params;
     const updatedEntity = req.body;
     updatedEntity.dateUpdated = Date.now();
 
-    userShema
+    orderProductShema
         .updateOne({ _id: id }, { $set: updatedEntity })
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.delete("/users/:id", (req, res) => {
+ 
+router.delete("/orderProducts/:id", (req, res) => {
     const { id } = req.params;
 
-    userShema
+    orderProductShema
         .remove({ _id: id })
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));

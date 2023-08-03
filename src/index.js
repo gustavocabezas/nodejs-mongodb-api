@@ -3,20 +3,32 @@ const mongoose = require("mongoose");
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
 }
+
+const securityRoutes = require("./routes/security");
 const userRoutes = require("./routes/user");
+const customerRoutes = require("./routes/customer");
+const orderRoute = require("./routes/order");
+const orderProductRoute = require("./routes/orderProduct");
+const productRoute = require("./routes/product");
 
 const app = express();
 const port = process.env.PORT || 9000;
 
 app.use(express.json());
 
-// middleware
-app.use('/api', userRoutes);
-
 app.get('/', (req, res) => {
     res.send("Welcome to my API");
 })
 
+// middleware
+app.use('/', securityRoutes);
+
+app.use('/', userRoutes);
+app.use('/', customerRoutes);
+app.use('/', orderRoute);
+app.use('/', orderProductRoute);
+app.use('/', productRoute);
+  
 mongoose
     .connect(process.env.MONGODB_URI)
     .then(() => console.log("Connected to MongoDB Atlas"))

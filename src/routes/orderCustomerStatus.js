@@ -1,57 +1,50 @@
 const express = require("express");
+const orderCustomerStatusShema = require("../models/orderCustomerStatus");
+
 const router = express.Router();
-const bcrypt = require('bcrypt');
-
-const userShema = require("../models/user");
-
-router.post("/users", (req, res) => {
-    const entity = userShema({
+ 
+router.post("/orderCustomerStatus", (req, res) => {
+    const entity = orderCustomerStatusShema({
         ...req.body,
         dateCreated: Date.now()
     });
-
-    bcrypt.hash(entity.password, 10)
-        .then(hash => {
-            entity.password = hash;
-            console.log(entity); 
-            return entity.save();
-        })
-        .then(data => res.json(data))
-        .catch(error => res.json({ message: error }));
-
+    entity
+        .save()
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error }));
 });
-
-router.get("/users", (req, res) => {
-    userShema
+ 
+router.get("/orderCustomerStatus", (req, res) => {
+    orderCustomerStatusShema
         .find()
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.get("/users/:id", (req, res) => {
+ 
+router.get("/orderCustomerStatus/:id", (req, res) => {
     const { id } = req.params;
 
-    userShema
+    orderCustomerStatusShema
         .findById(id)
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.put("/users/:id", (req, res) => {
+ 
+router.put("/orderCustomerStatus/:id", (req, res) => {
     const { id } = req.params;
     const updatedEntity = req.body;
     updatedEntity.dateUpdated = Date.now();
 
-    userShema
+    orderCustomerStatusShema
         .updateOne({ _id: id }, { $set: updatedEntity })
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.delete("/users/:id", (req, res) => {
+ 
+router.delete("/orderCustomerStatus/:id", (req, res) => {
     const { id } = req.params;
 
-    userShema
+    orderCustomerStatusShema
         .remove({ _id: id })
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));

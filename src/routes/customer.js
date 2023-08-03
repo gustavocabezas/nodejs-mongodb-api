@@ -1,57 +1,50 @@
 const express = require("express");
+const customerShema = require("../models/customer");
+
 const router = express.Router();
-const bcrypt = require('bcrypt');
-
-const userShema = require("../models/user");
-
-router.post("/users", (req, res) => {
-    const entity = userShema({
+ 
+router.post("/customers", (req, res) => {
+    const entity = customerShema({
         ...req.body,
         dateCreated: Date.now()
     });
-
-    bcrypt.hash(entity.password, 10)
-        .then(hash => {
-            entity.password = hash;
-            console.log(entity); 
-            return entity.save();
-        })
-        .then(data => res.json(data))
-        .catch(error => res.json({ message: error }));
-
+    entity
+        .save()
+        .then((data) => res.json(data))
+        .catch((error) => res.json({ message: error }));
 });
-
-router.get("/users", (req, res) => {
-    userShema
+ 
+router.get("/customers", (req, res) => {
+    customerShema
         .find()
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.get("/users/:id", (req, res) => {
+ 
+router.get("/customers/:id", (req, res) => {
     const { id } = req.params;
 
-    userShema
+    customerShema
         .findById(id)
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.put("/users/:id", (req, res) => {
+ 
+router.put("/customers/:id", (req, res) => {
     const { id } = req.params;
     const updatedEntity = req.body;
     updatedEntity.dateUpdated = Date.now();
 
-    userShema
+    customerShema
         .updateOne({ _id: id }, { $set: updatedEntity })
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
 });
-
-router.delete("/users/:id", (req, res) => {
+ 
+router.delete("/customers/:id", (req, res) => {
     const { id } = req.params;
 
-    userShema
+    customerShema
         .remove({ _id: id })
         .then((data) => res.json(data))
         .catch((error) => res.json({ message: error }));
