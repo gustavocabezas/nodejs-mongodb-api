@@ -22,15 +22,15 @@ router.post("/security/authenticate", async (req, res) => {
         }
   
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
- 
+  
         const authenticationResult = {
-            id: user.id,
+            id: user._id.toString(),
             token: token,
             primaryEmail: user.primaryEmail,
             profileId: user.profileId,
             statusId: user.statusId
         };
-
+ 
         return res.json(authenticationResult);
 
     } catch (error) {

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userShema = mongoose.Schema({
     id: {
-        type: Number,
+        type: String
     },
     profileId: {
         type: Number,
@@ -28,6 +28,9 @@ const userShema = mongoose.Schema({
     },
     statusId: {
         type: Number,
+    },
+    avatar: {
+        type: Buffer,
     },
     lastLogin: {
         type: Date

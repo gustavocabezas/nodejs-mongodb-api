@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const userRegistrationShema = mongoose.Schema({
     id: {
-        type: Number,
+        type: String
     },
     userId: {
         type: Number,

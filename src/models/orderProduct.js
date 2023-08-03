@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const orderProductShema = mongoose.Schema({
     id: {
-        type: Number,
+        type: String
     },
     dateCreated: {
         type: Date

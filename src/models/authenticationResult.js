@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const authenticationResultShema = mongoose.Schema({
     id: {
-        type: Number
+        type: String
     },
     token: {
         type: String,
