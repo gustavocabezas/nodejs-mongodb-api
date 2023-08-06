@@ -12,7 +12,6 @@ const orderProductRoute = require("./routes/orderProduct");
 const productRoute = require("./routes/product");
 
 const app = express();
-const port = process.env.PORT || 9000;
 
 app.use(express.json());
 
@@ -34,4 +33,4 @@ mongoose
     .then(() => console.log("Connected to MongoDB Atlas"))
     .catch((error) => console.error(error));
 
-app.listen(port, () => console.log('server listening on port', port));
+module.exports = app;
