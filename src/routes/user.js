@@ -12,8 +12,7 @@ router.post("/users", (req, res) => {
 
     bcrypt.hash(entity.password, 10)
         .then(hash => {
-            entity.password = hash;
-            console.log(entity);
+            entity.password = hash; 
             return entity.save();
         })
         .then(data => res.json(data))
@@ -37,15 +36,10 @@ router.get("/users/:id", (req, res) => {
         .catch((error) => res.json({ message: error }));
 });
 
-router.put("/users/:id", (req, res) => {
+router.put("/users/:id", (req, res) => { 
     const { id } = req.params;
     const updatedEntity = req.body;
     updatedEntity.dateUpdated = Date.now();
-
-    if (req.body.avatar != null) {
-        updatedEntity.avatar = Buffer.from(req.body.image, 'base64');
-    }
-
     userShema
         .updateOne({ _id: id }, { $set: updatedEntity })
         .then((data) => res.json(data))

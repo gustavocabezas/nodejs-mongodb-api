@@ -11,17 +11,12 @@ const orderRoute = require("./routes/order");
 const orderProductRoute = require("./routes/orderProduct");
 const productRoute = require("./routes/product");
 
-const app = express();
-
-app.use(express.json());
+const app = express();  
 
 app.get('/', (req, res) => {
     res.send("Welcome to my API");
 })
-
-// middleware
-app.use('/', securityRoutes);
-
+app.use('/', securityRoutes); 
 app.use('/', userRoutes);
 app.use('/', customerRoutes);
 app.use('/', orderRoute);

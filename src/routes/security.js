@@ -1,14 +1,18 @@
 const express = require("express");
+const router = express.Router();
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken'); 
-const User = require('../models/user'); 
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
-const router = express.Router(); 
+router.get("/security/authenticate", (req, res) => {
+    console.log(req);
+    res.json({ message: "Success Get" });
+});
 
-router.post("/security/authenticate", async (req, res) => {
+router.post("/security/authenticate", async (req, res) => { 
     const { primaryEmail, password } = req.body;
 
-    try { 
+    try {
 
         const user = await User.findOne({ primaryEmail });
         if (!user) {
@@ -20,9 +24,9 @@ router.post("/security/authenticate", async (req, res) => {
             console.log(password);
             return res.status(400).json({ message: "Incorrect password" });
         }
-  
+
         const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-  
+
         const authenticationResult = {
             id: user._id.toString(),
             token: token,
@@ -30,7 +34,7 @@ router.post("/security/authenticate", async (req, res) => {
             profileId: user.profileId,
             statusId: user.statusId
         };
- 
+
         return res.json(authenticationResult);
 
     } catch (error) {
