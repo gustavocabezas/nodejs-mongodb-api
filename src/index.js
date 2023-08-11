@@ -12,7 +12,7 @@ const orderProductRoute = require("./routes/orderProduct");
 const productRoute = require("./routes/product");
 
 const app = express();  
-
+app.use(express.json);
 app.get('/', (req, res) => {
     res.send("Welcome to my API");
 })

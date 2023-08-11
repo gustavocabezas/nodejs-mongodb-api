@@ -9,7 +9,7 @@ router.get("/security/authenticate", (req, res) => {
     res.json({ message: "Success Get" });
 });
 
-router.post("/security/authenticate", async (req, res) => { 
+router.post("/security/authenticate", async (req, res) => {
     const { primaryEmail, password } = req.body;
 
     try {
