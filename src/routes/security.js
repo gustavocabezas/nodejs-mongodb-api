@@ -10,6 +10,7 @@ router.get("/security/authenticate", (req, res) => {
 });
 
 router.post("/security/authenticate", async (req, res) => {
+    console.log(req.body);
     const { primaryEmail, password } = req.body;
 
     try {
