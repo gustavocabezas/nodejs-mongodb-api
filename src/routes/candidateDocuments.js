@@ -14,7 +14,7 @@ router.post("/candidateDocuments", async (req, res) => {
     entityData.dateCreated = Date.now();
 
     // MongoDB
-    const entity = new candidateDocuments(entityData);
+    const entity = new candidateDocumentsShema(entityData);
     try {
         await entity.save();
     } catch (err) {
@@ -69,8 +69,7 @@ router.get("/candidateDocuments/:id", async (req, res) => {
     }
 });
 
-
-router.put("/candidateDocuments/:id", async (req, res) => { 
+router.put("/candidateDocuments/:id", async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const updatedEntity = req.body;
@@ -81,5 +80,16 @@ router.put("/candidateDocuments/:id", async (req, res) => {
         .catch((error) => res.json({ message: error }));
 });
 
+router.delete("/candidateDocuments/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        candidateDocumentsShema
+            .findByIdAndDelete(id)
+            .then((data) => res.json(data))
+            .catch((error) => res.json({ message: error }));
+    } catch (err) {
+        return res.status(500).send('Error in DELETE candidateDocuments: ' + err.message);
+    }
+});
 
 module.exports = router;
